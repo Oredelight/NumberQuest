@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Number Quest — Adaptive Math Tutor</title>
+  <meta name="description" content="An adaptive K-5 math tutor that figures out exactly why you got stuck — not just that you did. Covers addition, subtraction, place value, and fractions with AI-powered feedback.">
+
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Kalam:wght@400;700&family=Nunito:wght@500;700;800&display=swap" rel="stylesheet">
+
+  
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/animations.css">
+</head>
+<body>
+
+<canvas id="confettiCanvas" aria-hidden="true"></canvas>
+
+<div class="wrap">
+
+  
+  <header>
+    <h1>Number Quest
+      <svg viewBox="0 0 200 14" preserveAspectRatio="none" aria-hidden="true">
+        <path d="M2 8 Q 50 2, 100 8 T 198 7"
+              stroke="#e8b923" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+      </svg>
+    </h1>
+    <p class="sub">
+      An adaptive math tutor that figures out <em>why</em> you got stuck, not just that you did.
+    </p>
+    <div class="header-controls">
+      <button class="icon-btn" id="soundBtn" aria-label="Toggle sound">Sound on</button>
+      <button class="icon-btn" id="dashBtn"  aria-label="Teacher and parent view">Teacher view</button>
+    </div>
+  </header>
+
+  
+  <div class="strands" id="strandTabs" role="tablist" aria-label="Math skill strands"></div>
+
+  
+  <div class="game">
+
+    
+    <div class="board-panel" role="main">
+      <div class="board-panel-header">
+        <p class="prompt" id="promptText">Loading…</p>
+        <button class="hint-btn" id="hintBtn" aria-label="Get a visual hint">Hint</button>
+      </div>
+
+      <div class="visual-area" id="visualArea" aria-live="polite" aria-label="Visual representation"></div>
+
+      <div id="interactionArea"></div>
+
+      <div class="actions">
+        <button class="btn btn-primary" id="checkBtn">Check answer</button>
+        <button class="btn btn-ghost"   id="tryAgainBtn" style="display:none;">Try again</button>
+        <button class="btn btn-primary" id="nextBtn"     style="display:none;">Next →</button>
+      </div>
+
+      <div class="feedback" id="feedback" aria-live="assertive" role="status"></div>
+    </div>
+
+    
+    <aside class="tutor-panel" aria-label="Professor Chalk tutor">
+      
+      <svg class="owl" viewBox="0 0 64 64" aria-label="Professor Chalk owl" role="img">
+        <circle cx="32" cy="34" r="26" fill="#c9d3c5"/>
+        <circle cx="22" cy="30" r="9"  fill="#f2efe4"/>
+        <circle cx="42" cy="30" r="9"  fill="#f2efe4"/>
+        <circle cx="22" cy="30" r="4"  fill="#1f3b2e"/>
+        <circle cx="42" cy="30" r="4"  fill="#1f3b2e"/>
+        
+        <circle cx="23.5" cy="28.5" r="1.2" fill="rgba(255,255,255,0.7)"/>
+        <circle cx="43.5" cy="28.5" r="1.2" fill="rgba(255,255,255,0.7)"/>
+        
+        <path d="M32 34 L27 42 L37 42 Z" fill="#e8b923"/>
+        
+        <path d="M10 20 Q16 8 24 18" stroke="#c9d3c5" stroke-width="4"
+              fill="none" stroke-linecap="round"/>
+        <path d="M54 20 Q48 8 40 18" stroke="#c9d3c5" stroke-width="4"
+              fill="none" stroke-linecap="round"/>
+      </svg>
+
+      <div class="tutor-name">Professor Chalk</div>
+
+      <div class="bubble" id="bubble" aria-live="polite">
+        Pick a subject above and let's get started!
+      </div>
+    </aside>
+  </div>
+
+  <p class="hint-note">
+    Get 3 in a row to level up each skill. Get one wrong and Professor Chalk figures out exactly what mixed you up.
+    &nbsp;·&nbsp; <kbd>Enter</kbd> = Check &nbsp; <kbd>0-9</kbd> = type answer &nbsp; <kbd>Backspace</kbd> = delete
+  </p>
+
+</div>
+
+</div>
+
+<div class="overlay" id="celebOverlay" role="dialog" aria-modal="true" aria-label="Celebration">
+  <div class="celeb-card">
+    <h2>You did it!</h2>
+    <p>All four skills mastered. That is real number sense across addition, place value, multiplication, and fractions.</p>
+    <button class="btn btn-primary" id="closeOverlay">Keep playing</button>
+  </div>
+</div>
+
+<div class="overlay" id="dashOverlay" role="dialog" aria-modal="true" aria-label="Session intelligence">
+  <div class="dash-overlay-card">
+    <h2>Session intelligence</h2>
+    <p style="color:var(--chalk-dim);font-size:0.82rem;margin:2px 0 18px;">
+      Live stats from this session, plus an AI-generated report for parents and teachers.
+    </p>
+    <div id="dashboardBody"></div>
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-top:18px;flex-wrap:wrap;gap:10px;">
+      <button class="btn-danger" id="resetProgress">Reset all progress</button>
+      <button class="btn btn-primary" id="closeDash">Close</button>
+    </div>
+  </div>
+</div>
+
+
+<script src="js/state.js"></script>
+<script src="js/visuals.js"></script>
+<script src="js/problems/addsub.js"></script>
+<script src="js/problems/placevalue.js"></script>
+<script src="js/problems/multiplication.js"></script>
+<script src="js/problems/fractions.js"></script>
+<script src="js/tutor.js?v=proxy1"></script>
+<script src="js/dashboard.js?v=proxy1"></script>
+<script src="js/sound.js"></script>
+<script src="js/confetti.js"></script>
+<script src="js/main.js"></script>
+
+</body>
+</html>

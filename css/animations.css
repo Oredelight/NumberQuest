@@ -1,0 +1,64 @@
+﻿@keyframes pulse {
+  0%, 80%, 100% { opacity: 0.3; transform: scale(0.8); }
+  40%           { opacity: 1;   transform: scale(1); }
+}
+
+@keyframes blockPop {
+  0%   { transform: scale(1); filter: brightness(1); }
+  30%  { transform: scale(1.22); filter: brightness(1.5); }
+  65%  { transform: scale(0.95); }
+  100% { transform: scale(1); filter: brightness(1); }
+}
+
+@keyframes segPulse {
+  from { background: rgba(232,185,35,0.28); }
+  to   { background: rgba(232,185,35,0.85); }
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(9px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes correctPop {
+  0%   { box-shadow: 0 0 0 0 rgba(127,176,105,0); }
+  40%  { box-shadow: 0 0 0 6px rgba(127,176,105,0.35); }
+  100% { box-shadow: 0 0 0 0 rgba(127,176,105,0); }
+}
+
+@keyframes wrongShake {
+  0%,100% { transform: translateX(0); }
+  20%     { transform: translateX(-6px); }
+  40%     { transform: translateX(6px); }
+  60%     { transform: translateX(-4px); }
+  80%     { transform: translateX(4px); }
+}
+
+@keyframes owlBounce {
+  0%   { transform: translateY(0) rotate(0deg); }
+  25%  { transform: translateY(-9px) rotate(-6deg); }
+  50%  { transform: translateY(-4px) rotate(4deg); }
+  75%  { transform: translateY(-7px) rotate(-2deg); }
+  100% { transform: translateY(0) rotate(0deg); }
+}
+
+@keyframes levelFlash {
+  0%   { border-color: var(--panel-border); }
+  30%  { border-color: var(--rod-yellow); box-shadow: 0 0 18px rgba(232,185,35,0.3); }
+  100% { border-color: var(--panel-border); box-shadow: none; }
+}
+
+@keyframes streakPop {
+  0%   { transform: scale(1); }
+  50%  { transform: scale(1.18); }
+  100% { transform: scale(1); }
+}
+
+.anim-correct   { animation: correctPop .5s ease; }
+.anim-wrong     { animation: wrongShake .4s ease; }
+.anim-fadeInUp  { animation: fadeInUp .3s ease; }
+.anim-levelFlash { animation: levelFlash .7s ease; }
+.anim-streakPop { animation: streakPop .35s ease; }
+
+.owl.bounce { animation: owlBounce .65s ease; }
+.strand-tab.level-up { animation: levelFlash .7s ease; }
