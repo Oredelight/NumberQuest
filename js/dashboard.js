@@ -101,9 +101,10 @@ NQ.renderDashboard = function() {
     this.textContent = 'Generating...';
     out.innerHTML    = `<p class="summary-text" style="color:var(--chalk-dim);">Reading the session...</p>`;
 
-    const summary = await NQ.generateSessionSummary();
+    const result = await NQ.generateSessionSummary();
 
-    if (summary) {
+    if (result?.text) {
+      const summary = result.text;
       out.innerHTML = `
         <p class="summary-text">${summary}</p>
         <button class="btn btn-ghost summary-copy-btn" id="copySummary">Copy</button>
@@ -115,7 +116,12 @@ NQ.renderDashboard = function() {
         });
       });
     } else {
-      out.innerHTML = `<p class="summary-text" style="color:var(--rod-red);">Could not generate the summary right now. Please try again.</p>`;
+      const detail = result?.status === 500
+        ? 'Gemini is not configured on the deployed app.'
+        : result?.status === 502
+          ? 'Gemini rejected the request. Check the deployment key and model access.'
+          : 'Please use the deployed app URL, then try again.';
+      out.innerHTML = `<p class="summary-text" style="color:var(--rod-red);">Could not generate the summary. ${detail}</p>`;
     }
 
     this.disabled    = false;

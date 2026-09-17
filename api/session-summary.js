@@ -1,6 +1,7 @@
 'use strict';
 
 const SYSTEM_PROMPT = 'You are Professor Chalk, a warm and precise K-5 math tutoring assistant. You write session intelligence reports for parents and teachers. You are direct, specific, and encouraging. You never use em-dashes or en-dashes.';
+const GEMINI_MODEL = 'gemini-2.5-flash';
 
 module.exports = async function handler(req, res) {
   if (req.method !== 'POST') {
@@ -22,7 +23,7 @@ module.exports = async function handler(req, res) {
 
   try {
     const geminiRes = await fetch(
-      'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=' +
+      'https://generativelanguage.googleapis.com/v1beta/models/' + GEMINI_MODEL + ':generateContent?key=' +
       encodeURIComponent(apiKey),
       {
         method: 'POST',
@@ -37,7 +38,8 @@ module.exports = async function handler(req, res) {
 
     const data = await geminiRes.json();
     if (!geminiRes.ok) {
-      res.status(502).json({ error: 'Gemini request failed' });
+      console.error('Gemini request failed:', geminiRes.status, data.error?.status || 'unknown error');
+      res.status(502).json({ error: 'Gemini request failed', providerStatus: geminiRes.status });
       return;
     }
 

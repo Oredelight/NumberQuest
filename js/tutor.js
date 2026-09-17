@@ -86,13 +86,12 @@ Rules: Write for a parent, not an educator. Be specific and warm. Never use em-d
       body: JSON.stringify({ userMsg })
     });
 
-    if (!res.ok) throw new Error('HTTP ' + res.status);
-
     const data = await res.json();
-    return data.text || null;
+    if (!res.ok) return { status: res.status, error: data.error || 'Request failed' };
+    return { text: data.text || '' };
 
   } catch (err) {
     console.warn('Session summary error:', err.message);
-    return null;
+    return { status: 0, error: err.message };
   }
 };
