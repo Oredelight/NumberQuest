@@ -84,7 +84,13 @@ Rules: Do not greet the reader or say hello. Use only the supplied data. Be spec
     });
 
     const data = await res.json();
-    if (!res.ok) return { status: res.status, error: data.error || 'Request failed' };
+    if (!res.ok) {
+      return {
+        status: res.status,
+        error: data.error || 'Request failed',
+        providerMessage: data.providerMessage || ''
+      };
+    }
     return { text: data.text || '' };
 
   } catch (err) {

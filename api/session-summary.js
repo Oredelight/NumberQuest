@@ -42,7 +42,11 @@ module.exports = async function handler(req, res) {
     const data = await geminiRes.json();
     if (!geminiRes.ok) {
       console.error('Gemini request failed:', geminiRes.status, data.error?.status || 'unknown error');
-      res.status(502).json({ error: 'Gemini request failed', providerStatus: geminiRes.status });
+      res.status(502).json({
+        error: 'Gemini request failed',
+        providerStatus: geminiRes.status,
+        providerMessage: data.error?.message || 'Unknown Gemini error'
+      });
       return;
     }
 

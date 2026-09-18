@@ -119,7 +119,7 @@ NQ.renderDashboard = function() {
       const detail = result?.status === 500
         ? 'Gemini is not configured on the deployed app.'
         : result?.status === 502
-          ? 'Gemini rejected the request. Check the deployment key and model access.'
+          ? `Gemini rejected the request: ${result.providerMessage || 'check the deployment key and model access.'}`
           : 'Please use the deployed app URL, then try again.';
       out.innerHTML = `<p class="summary-text" style="color:var(--rod-red);">Could not generate the summary. ${detail}</p>`;
     }
