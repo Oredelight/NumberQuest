@@ -58,6 +58,18 @@ module.exports = async function handler(req, res) {
       return;
     }
 
+    const total = userMsg.match(/Total problems: (\d+)/)?.[1];
+    const correct = userMsg.match(/Correct: (\d+)/)?.[1];
+    const wrong = userMsg.match(/Wrong: (\d+)/)?.[1];
+    const accuracy = userMsg.match(/Correct: \d+ \((\d+)%\)/)?.[1];
+    const skills = userMsg.match(/Skills practiced: (.+)/)?.[1];
+    const requiredFacts = [total, correct, wrong, accuracy, skills].filter(Boolean);
+    const hasAllFacts = requiredFacts.every(fact => text.includes(fact));
+
+    if (!hasAllFacts) {
+      text = `This session included ${total} problems, with ${correct} correct and ${wrong} wrong for ${accuracy}% accuracy across ${skills}. ${text}`;
+    }
+
     res.status(200).json({ text });
   } catch (err) {
     console.error('Session summary error:', err.message);
