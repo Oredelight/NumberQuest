@@ -70,12 +70,9 @@ NQ.generateSessionSummary = async function() {
 - Skills practiced: ${strands.join(', ')}
 ${errorLines ? `\nSpecific errors this session:\n${errorLines}` : '\nNo errors. The student answered everything correctly.'}
 
-Write a 3-4 sentence summary for a parent or teacher. Cover:
-1. What the student practiced and how they did overall
-2. The most significant error pattern you see, using plain language and real numbers from the problems
-3. One concrete recommendation for the next practice session
+Write exactly 3 sentences for a parent or teacher. The first sentence MUST mention ${total} total problems, ${correct} correct, ${total - correct} wrong, ${pct}% accuracy, and every skill in this session. The second sentence MUST explain the most significant error pattern using the specific wrong-answer details above. The third sentence MUST give one concrete recommendation for the next practice session.
 
-Rules: Write for a parent, not an educator. Be specific and warm. Never use em-dashes or en-dashes. No bullet points.`;
+Rules: Do not greet the reader or say hello. Use only the supplied data. Be specific and warm. Never use em-dashes or en-dashes. No bullet points or headings.`;
 
   try {
     const res = await fetch('/api/session-summary', {

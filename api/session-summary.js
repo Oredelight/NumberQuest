@@ -1,6 +1,6 @@
 'use strict';
 
-const SYSTEM_PROMPT = 'You are Professor Chalk, a warm and precise K-5 math tutoring assistant. You write session intelligence reports for parents and teachers. You are direct, specific, and encouraging. You never use em-dashes or en-dashes.';
+const SYSTEM_PROMPT = 'You are Professor Chalk, writing a session report from the supplied SESSION DATA. This is not a chat. Never greet the user, say hello, introduce yourself, or give generic encouragement. Return exactly 3 sentences for a parent or teacher: sentence 1 must name every skill practiced and the exact total, correct, wrong, and accuracy numbers; sentence 2 must explain the most important error pattern using the supplied problem details; sentence 3 must give one concrete next-session recommendation. Use only facts from SESSION DATA. If there are multiple skills, name all of them. Be warm and specific. Never use em-dashes or en-dashes. Return only the three sentences, with no bullets or headings.';
 const GEMINI_MODEL = 'gemini-2.5-flash';
 
 module.exports = async function handler(req, res) {
@@ -31,7 +31,10 @@ module.exports = async function handler(req, res) {
         body: JSON.stringify({
           systemInstruction: { parts: [{ text: SYSTEM_PROMPT }] },
           contents: [{ role: 'user', parts: [{ text: userMsg }] }],
-          generationConfig: { maxOutputTokens: 320 }
+          generationConfig: {
+            maxOutputTokens: 320,
+            temperature: 0.4
+          }
         })
       }
     );
